@@ -441,7 +441,7 @@ orderBtn.addEventListener('click', (e) => {
         message += `• ${item.name} × ${item.qty} — KSh ${item.price * item.qty}${fee} = KSh ${lineTotal}%0A`;
         grandTotal += lineTotal;
     });
-    message += '.';
+    message += '';
     message += `TOTAL: KSh ${grandTotal.toLocaleString()}%0A%0A`;
     message += 'Pandit Nehru Rd, Nakuru%0A';
     message += ' 7am – 11pm Daily%0A%0A';
