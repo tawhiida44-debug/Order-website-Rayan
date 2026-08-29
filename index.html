@@ -442,9 +442,9 @@ orderBtn.addEventListener('click', (e) => {
         grandTotal += lineTotal;
     });
     message += '';
-    message += `TOTAL: KSh ${grandTotal.toLocaleString()}%0A%0A`;
-    message += 'Pandit Nehru Rd, Nakuru%0A';
-    message += ' 7am – 11pm Daily%0A%0A';
+    message += `TOTAL: KSh ${grandTotal .}`;
+    message += 'Pandit Nehru Rd, ;
+    message += ' 7am – 11pm Daily ';
     message += 'Please confirm my order. Thank you!';
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 });
