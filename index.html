@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rayan Cafe Supreme | Order Online — Nakuru</title>
+    <meta name="description" content="Rayan Cafe Supreme — Halal authentic Swahili meals. Order via WhatsApp: +254 720 942 451. Open 7am – 11pm daily.">
+    <meta name="theme-color" content="#4A2C2A">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /*  LUXURIOUS GREEN • GOLD • WARM BROWN THEME */
+        :root {
+            --deep-brown: #3D2314;
+            --rich-brown: #5C3924;
+            --warm-brown: #8B5A2B;
+            --gold: #C8A951;
+            --gold-light: #E4CB7F;
+            --deep-green: #1E5631;
+            --forest-green: #2E7D4A;
+            --moss-green: #4A9F68;
+            --cream: #F8F2E4;
+            --ivory: #FFFAF0;
+            --text-dark: #2C1810;
+            --text-muted: #7A6658;
+            --btn-gradient: linear-gradient(135deg, var(--deep-green), var(--forest-green));
+            --gold-gradient: linear-gradient(135deg, var(--gold), var(--gold-light));
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--ivory) 0%, #F0E6D0 100%);
+            color: var(--text-dark);
+            font-family: 'Georgia', 'Palatino', system-ui, -apple-system, serif;
+            line-height: 1.7;
+            padding-bottom: 110px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--deep-brown), var(--rich-brown));
+            padding: 2.25rem 1.25rem;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(61, 35, 20, 0.25);
+        }
+
+        header h1 { 
+            font-size: 1.85rem; 
+            font-weight: 700; 
+            color: var(--gold-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header p { 
+            color: var(--cream); 
+            margin-top: 0.5rem; 
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .contact-bar {
+            background: var(--deep-green);
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .contact-bar span { color: var(--cream); font-weight: 500; }
+        .contact-bar a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .contact-bar a:hover { color: var(--cream); }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 1.75rem 1.25rem; }
+
+        .section-title {
+            font-size: 1.35rem;
+            color: var(--deep-brown);
+            margin: 3rem 0 1.25rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 3px solid transparent;
+            border-image: var(--gold-gradient) 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-grid { display: grid; gap: 0.85rem; }
+
+        .menu-item {
+            background: var(--ivory);
+            padding: 1.15rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid #E0D0B0;
+            box-shadow: 0 2px 8px rgba(92, 57, 36, 0.08);
+        }
+
+        .menu-item:hover {
+            background: #FFF8E8;
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 90, 43, 0.15);
+        }
+
+        .item-info { flex: 1; }
+        .item-name { 
+            font-weight: 600; 
+            font-size: 1.02rem;
+            color: var(--text-dark);
+        }
+        .item-price { 
+            color: var(--deep-green); 
+            font-weight: 700; 
+            margin-top: 0.3rem; 
+            font-size: 1rem;
+            font-family: system-ui, sans-serif;
+        }
+
+        .qty-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-left: 0.9rem;
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: var(--btn-gradient);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 6px rgba(30, 86, 49, 0.35);
+        }
+
+        .qty-btn:hover { 
+            background: var(--gold-gradient);
+            color: var(--deep-brown);
+            transform: scale(1.08);
+        }
+
+        .qty-val {
+            min-width: 32px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--deep-brown);
+        }
+
+        .cart-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--deep-brown), var(--rich-brown));
+            border-top: 3px solid var(--gold);
+            padding: 1.1rem 1.25rem;
+            box-shadow: 0 -6px 25px rgba(61, 35, 20, 0.35);
+        }
+
+        .cart-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+        }
+
+        .total-text { 
+            font-size: 1.15rem; 
+            color: var(--cream);
+            font-weight: 500;
+        }
+        .total-price { 
+            font-weight: 700; 
+            color: var(--gold-light); 
+            font-size: 1.3rem;
+            font-family: system-ui, sans-serif;
+        }
+
+        .order-btn {
+            background: var(--gold-gradient);
+            color: var(--deep-brown);
+            border: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 3px 10px rgba(200, 169, 81, 0.4);
+        }
+
+        .order-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 18px rgba(200, 169, 81, 0.5);
+        }
+
+        .note {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+            border-left: 3px solid var(--gold);
+            padding-left: 1rem;
+        }
+
+        .sub-item { 
+            padding-left: 1.2rem; 
+            border-left: 3px solid var(--gold);
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>RAYAN CAFE SUPREME</h1>
+    <p>Authentic Swahili & Halal Meals — Pandit Nehru Rd, Nakuru</p>
+</header>
+
+<div class="contact-bar">
+    <span> 7:00am – 11:00pm Daily</span>
+    <a href="https://wa.me/254720942451" target="_blank" rel="noopener noreferrer"> +254 720 942 451</a>
+</div>
+
+<div class="container">
+
+    <!-- BEVERAGES -->
+    <h2 class="section-title">BEVERAGES</h2>
+    <div class="menu-grid" data-category="Beverages">
+        <div class="menu-item"><div class="item-info"><div class="item-name">TEA</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MIXED TEA</div><div class="item-price">KSh 60</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MASALA TEA</div><div class="item-price">KSh 70</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">WHITE COFFEE</div><div class="item-price">KSh 70</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">BLACK COFFEE / TEA</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">LEMON TEA</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">HOT CHOCOLATE</div><div class="item-price">KSh 60</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHAI DAWA</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- JUICES -->
+    <h2 class="section-title">JUICES</h2>
+    <div class="menu-grid" data-category="Juices">
+        <div class="menu-item"><div class="item-info"><div class="item-name">MANGO JUICE</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">UKWAJU JUICE</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">PASSION JUICE</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MIXED JUICE</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SHARBET MILKSHAKE</div><div class="item-price">KSh 150</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- COLD DRINKS -->
+    <h2 class="section-title">COLD DRINKS</h2>
+    <div class="menu-grid" data-category="Cold Drinks">
+        <div class="menu-item"><div class="item-info"><div class="item-name">MINERAL WATER 1 Ltr</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MINERAL WATER 1/2 Ltr</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SODA 300ml</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">ENERGY DRINK</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">LEMONADE</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- SNACKS -->
+    <h2 class="section-title">SNACKS</h2>
+    <div class="menu-grid" data-category="Snacks">
+        <div class="menu-item"><div class="item-info"><div class="item-name">KEBAB</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SAMOSA</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">FRIED EGGS (2 EGGS)</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SPANISH OMELETTE</div><div class="item-price">KSh 150</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SAUSAGE CHICKEN (HALAL)</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SAUSAGE BEEF (HALAL)</div><div class="item-price">KSh 60</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHAPATI</div><div class="item-price">KSh 30</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MAHAMRI</div><div class="item-price">KSh 20</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- OTHER MEALS -->
+    <h2 class="section-title">OTHER MEALS</h2>
+    <div class="menu-grid" data-category="Other Meals">
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHIPS</div><div class="item-price">KSh 150</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHIPS MASALA</div><div class="item-price">KSh 250</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHIPS SCRAMBLE</div><div class="item-price">KSh 250</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">PILAU</div><div class="item-price">KSh 200</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">PILAU PLUS</div><div class="item-price">KSh 400</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">PILAU SPECIAL</div><div class="item-price">KSh 200</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">DONDO / MAHARAGWE</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">GITHERI</div><div class="item-price">KSh 150</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">GITHERI SPECIAL</div><div class="item-price">KSh 250</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- LIGHT FOODS -->
+    <h2 class="section-title">LIGHT FOODS</h2>
+    <div class="menu-grid" data-category="Light Foods">
+        <div class="menu-item"><div class="item-info"><div class="item-name">FRIED EGGS SPECIAL</div><div class="item-price">KSh 150</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SAUSAGE SPECIAL CHICKEN (HALAL)</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">SAUSAGE SPECIAL BEEF (HALAL)</div><div class="item-price">KSh 110</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">KUKU 1/4 SPECIAL</div><div class="item-price">KSh 300</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">NDUMA</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">ROLEX (CHAPATI EGGS)</div><div class="item-price">KSh 130</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">KEBAB OR SAMOSA SPECIAL</div><div class="item-price">KSh 100</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- MAIN MEAL — SEAFOOD -->
+    <h2 class="section-title">MAIN MEAL — SEAFOOD</h2>
+    <div class="menu-grid" data-category="Seafood">
+        <div class="menu-item"><div class="item-info"><div class="item-name">FISH FRY</div><div class="item-price">KSh 350</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">FISH STEW</div><div class="item-price">KSh 400</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">FISH FRY + VEG — UGALI</div><div class="item-price">KSh 400</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">FISH FRY + VEG — WHITE RICE</div><div class="item-price">KSh 500</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">FISH FRY + VEG — PILAU</div><div class="item-price">KSh 550</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">FISH STEW + VEG — UGALI</div><div class="item-price">KSh 450</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">FISH STEW + VEG — WHITE RICE</div><div class="item-price">KSh 550</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- BEEF -->
+    <h2 class="section-title">BEEF</h2>
+    <div class="menu-grid" data-category="Beef">
+        <div class="menu-item"><div class="item-info"><div class="item-name">BEEF STEW PLAIN</div><div class="item-price">KSh 250</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">BEEF WET FRY + VEG — UGALI</div><div class="item-price">KSh 300</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">BEEF WET FRY + VEG — WHITE RICE</div><div class="item-price">KSh 400</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">BEEF WET FRY + VEG — PILAU</div><div class="item-price">KSh 450</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- CHICKEN -->
+    <h2 class="section-title">CHICKEN</h2>
+    <div class="menu-grid" data-category="Chicken">
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHICKEN FRY</div><div class="item-price">KSh 300</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">CHICKEN STEW</div><div class="item-price">KSh 350</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">1/4 CHICKEN FRY + VEG — UGALI</div><div class="item-price">KSh 350</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item sub-item"><div class="item-info"><div class="item-name">1/4 CHICKEN FRY + VEG — WHITE RICE</div><div class="item-price">KSh 450</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- VEGETABLES -->
+    <h2 class="section-title">VEGETABLES</h2>
+    <div class="menu-grid" data-category="Vegetables">
+        <div class="menu-item"><div class="item-info"><div class="item-name">SUKUMA WIKI / SPINACH / CABBAGE</div><div class="item-price">KSh 50</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MANAGU</div><div class="item-price">KSh 80</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <!-- WEEKLY SPECIALS -->
+    <h2 class="section-title">WEEKLY SPECIALS</h2>
+    <div class="menu-grid" data-category="Specials">
+        <div class="menu-item"><div class="item-info"><div class="item-name">FRIDAY BIRIANI</div><div class="item-price">KSh 250</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">BEEF BIRIANI</div><div class="item-price">KSh 450</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">1/4 CHICKEN BIRIANI</div><div class="item-price">KSh 500</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MATOKE PLAIN (WEDNESDAY)</div><div class="item-price">KSh 150</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MATOKE BEEF (WEDNESDAY)</div><div class="item-price">KSh 350</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">MATOKE LIVER (WEDNESDAY)</div><div class="item-price">KSh 450</div></div><div class="qty-wrap"><button class="qty-btn minus">−</button><span class="qty-val">0</span><button class="qty-btn plus">+</button></div></div>
+    </div>
+
+    <p class="note">Preparation: 10–15 mins. Takeaway container +KSh 20 per item (except snacks). Open 7am – 11pm daily.</p>
+
+</div>
+
+<!-- CART BOTTOM BAR -->
+<div class="cart-summary">
+    <div class="cart-inner">
+        <div class="total-text">Total: <span class="total-price" id="totalPrice">KSh 0</span></div>
+        <a href="#" id="orderBtn" class="order-btn">Send Order via WhatsApp</a>
+    </div>
+</div>
+
+<script>
+const menuItems = document.querySelectorAll('.menu-item');
+const totalPriceEl = document.getElementById('totalPrice');
+const orderBtn = document.getElementById('orderBtn');
+const WHATSAPP_NUMBER = '254720942451';
+const TAKEAWAY_FEE = 20;
+
+let cart = [];
+
+function parsePrice(text) {
+    return parseInt(text.replace(/[^0-9]/g, '')) || 0;
+}
+
+function updateCart() {
+    let total = 0;
+    cart = [];
+    menuItems.forEach(item => {
+        const name = item.querySelector('.item-name').textContent.trim();
+        const price = parsePrice(item.querySelector('.item-price').textContent);
+        const qty = parseInt(item.querySelector('.qty-val').textContent);
+        const category = item.closest('[data-category]')?.dataset.category || '';
+        if (qty > 0) {
+            let itemTotal = price * qty;
+            if (category !== 'Snacks') itemTotal += TAKEAWAY_FEE * qty;
+            total += itemTotal;
+            cart.push({ name, price, qty, category });
+        }
+    });
+    totalPriceEl.textContent = `KSh ${total.toLocaleString()}`;
+}
+
+menuItems.forEach(item => {
+    const minusBtn = item.querySelector('.minus');
+    const plusBtn = item.querySelector('.plus');
+    const qtyVal = item.querySelector('.qty-val');
+    plusBtn.addEventListener('click', () => {
+        qtyVal.textContent = parseInt(qtyVal.textContent) + 1;
+        updateCart();
+    });
+    minusBtn.addEventListener('click', () => {
+        const current = parseInt(qtyVal.textContent);
+        if (current > 0) qtyVal.textContent = current - 1;
+        updateCart();
+    });
+});
+
+orderBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (cart.length === 0) {
+        alert('Please add items to your order first!');
+        return;
+    }
+    let message = 'NEW ORDER — Rayan Cafe Supreme%0A';
+    message += '━━━━━━━━━━━━━━━━━━%0A';
+    let grandTotal = 0;
+    cart.forEach(item => {
+        const fee = item.category !== 'Snacks' ? ` (+KSh ${TAKEAWAY_FEE} takeaway)` : '';
+        const lineTotal = item.price * item.qty + (item.category !== 'Snacks' ? TAKEAWAY_FEE * item.qty : 0);
+        message += `• ${item.name} × ${item.qty} — KSh ${item.price * item.qty}${fee} = KSh ${lineTotal}%0A`;
+        grandTotal += lineTotal;
+    });
+    message += '━━━━━━━━━━━━━━━━━━%0A';
+    message += `TOTAL: KSh ${grandTotal.toLocaleString()}%0A%0A`;
+    message += 'Pandit Nehru Rd, Nakuru%0A';
+    message += ' 7am – 11pm Daily%0A%0A';
+    message += 'Please confirm my order. Thank you!';
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+});
+</script>
+
+</body>
+</html>
