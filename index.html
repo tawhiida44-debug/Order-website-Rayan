@@ -435,67 +435,68 @@
 const menuItems = document.querySelectorAll('.menu-item');
 const totalPriceEl = document.getElementById('totalPrice');
 const orderBtn = document.getElementById('orderBtn');
-const WHATSAPP_NUMBER = '254720942451';
+const WHATSAPP_NUMBER = '254720043451';
 const TAKEAWAY_FEE = 20;
 
 let cart = [];
+let grandTotal = 0;
 
 function parsePrice(text) {
-    return parseInt(text.replace(/[^0-9]/g, '')) || 0;
+  return parseInt(text.replace(/[^0-9]/g, '')) || 0;
 }
 
 function updateCart() {
-    let total = 0;
-    cart = [];
-    menuItems.forEach(item => {
-        const name = item.querySelector('.item-name').textContent.trim();
-        const price = parsePrice(item.querySelector('.item-price').textContent);
-        const qty = parseInt(item.querySelector('.qty-val').textContent);
-        const category = item.closest('[data-category]')?.dataset.category || '';
-        if (qty > 0) {
-            let itemTotal = price * qty;
-            if (category !== 'Snacks') itemTotal += TAKEAWAY_FEE * qty;
-            total += itemTotal;
-            cart.push({ name, price, qty, category });
-        }
-    });
-    totalPriceEl.textContent = `KSh ${total.toLocaleString()}`:
-    let grandtotal = total; // save for whatsApp
+  let total = 0;
+  cart = [];
+  menuItems.forEach(item => {
+    const name = item.querySelector('.item-name').textContent.trim();
+    const price = parsePrice(item.querySelector('.item-price').textContent);
+    const qty = parseInt(item.querySelector('.qty-val').textContent);
+    const category = item.closest('[data-category]')?.dataset.category || '';
+    if (qty > 0) {
+      let itemTotal = price * qty;
+      if (category !== 'Snacks') itemTotal += TAKEAWAY_FEE * qty;
+      total += itemTotal;
+      cart.push({ name, price, qty, category, itemTotal });
+    }
+  });
+  grandTotal = total;
+  totalPriceEl.textContent = `KSh ${grandTotal}`;
 }
 
 menuItems.forEach(item => {
-    const minusBtn = item.querySelector('.minus');
-    const plusBtn = item.querySelector('.plus');
-    const qtyVal = item.querySelector('.qty-val');
-    plusBtn.addEventListener('click', () => {
-        qtyVal.textContent = parseInt(qtyVal.textContent) + 1;
-        updateCart();
-    });
-    minusBtn.addEventListener('click', () => {
-        const current = parseInt(qtyVal.textContent);
-        if (current > 0) qtyVal.textContent = current - 1;
-        updateCart();
-    });
+  const minusBtn = item.querySelector('.minus');
+  const plusBtn = item.querySelector('.plus');
+  const qtyVal = item.querySelector('.qty-val');
+  plusBtn.addEventListener('click', () => {
+    qtyVal.textContent = parseInt(qtyVal.textContent) + 1;
+    updateCart();
+  });
+  minusBtn.addEventListener('click', () => {
+    const current = parseInt(qtyVal.textContent);
+    if (current > 0) qtyVal.textContent = current - 1;
+    updateCart();
+  });
 });
 
 orderBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (cart.length === 0) {
-        alert('Please add items to your order first!');
-        return;
-    }
-    let message = `*NEW ORDER - Rayan Cafe Supreme*\n\n`;
-cart.forEach(item => {
-  let lineTotal = item.price * item.qty;
-  if (item.category !== 'Snacks') lineTotal += TAKEAWAY_FEE * item.qty;
-  message += `• ${item.name} x${item.qty} - KSh ${lineTotal}\n`;
-});
-message += `\nTOTAL: KSh ${grandTotal}\n`;
-message += `Pandit Nehru Rd,\n`;
-message += `7am - 11pm Daily\n`;
-message += `Please confirm my order. Thank you!`;
+  e.preventDefault();
+  if (cart.length === 0) {
+    alert('Please add items to your order first!');
+    return;
+  }
+  let message = "*NEW ORDER - Rayan Cafe Supreme*\n\n";
+  cart.forEach(item => {
+    let lineTotal = item.price * item.qty;
+    if (item.category !== 'Snacks') lineTotal += TAKEAWAY_FEE * item.qty;
+    message += `• ${item.name} x${item.qty} - KSh ${lineTotal}\n`;
+  });
+  message += `\nTOTAL: KSh ${grandTotal}\n`;
+  message += "Pandit Nehru Rd,\n";
+  message += "7am - 11pm Daily\n";
+  message += "Please confirm my order. Thank you!";
 
-window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 });
 </script>
 
