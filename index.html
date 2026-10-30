@@ -418,7 +418,7 @@
 <div class="cart-summary">
     <div class="cart-inner">
         <div class="total-text"><span id="cartCount">0 items</span> | Total: <span class="total-price" id="totalPrice">KSh 0</span></div>
-        <a href="#" id="orderBtn" class="order-btn">🛒 Order Now - View Cart</a>
+        <a href="#" id="orderBtn" class="order-btn"> Order Now - View Cart</a>
     </div>
 </div>
 
@@ -482,7 +482,7 @@ function openCart(){
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-breakdown">
           KSh ${item.price} × ${item.qty} = <b>KSh ${item.base}</b>
-          ${item.isSnack ? `<br><span style="color:green">No package (Snacks)</span>` : `<br>📦 Package: KSh ${TAKEAWAY_FEE} × ${item.qty} = <b>KSh ${item.pack}</b>`}
+          ${item.isSnack ? `<br><span style="color:green">No package (Snacks)</span>` : `<br> Package: KSh ${TAKEAWAY_FEE} × ${item.qty} = <b>KSh ${item.pack}</b>`}
           <br><b style="color:#1E5631">Item total: KSh ${item.total}</b>
         </div>
       </div>
@@ -490,7 +490,7 @@ function openCart(){
         <button onclick="changeQty('${item.name.replace(/'/g,"\\'")}', -1)">−</button>
         <span style="min-width:24px;text-align:center;font-weight:bold;">${item.qty}</span>
         <button onclick="changeQty('${item.name.replace(/'/g,"\\'")}', 1)">+</button>
-        <span class="cart-delete" onclick="removeItem('${item.name.replace(/'/g,"\\'")}')">🗑️</span>
+        <span class="cart-delete" onclick="removeItem('${item.name.replace(/'/g,"\\'")}')"></span>
       </div>
     </div>
   `).join('');
