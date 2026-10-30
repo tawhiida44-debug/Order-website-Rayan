@@ -232,6 +232,9 @@
             border-left: 3px solid var(--gold);
             margin-left: 0.5rem;
         }
+        .package-badge{font-size:0.65rem;background:#FFF3CD;color:#856404;padding:2px 6px;border-radius:4px;margin-left:5px}
+.no-package{font-size:0.65rem;background:#D4EDDA;color:#155724;padding:2px 6px;border-radius:4px;margin-left:5px}
+.cart-item-breakdown{font-size:0.78rem;color:#7A6658;margin-top:4px;line-height:1.3}
     </style>
 </head>
 <body>
@@ -421,73 +424,89 @@
 </div>
 
 <script>
-const menuItems = document.querySelectorAll('.menu-item');
-const totalPriceEl = document.getElementById('totalPrice');
-const orderBtn = document.getElementById('orderBtn');
-const WHATSAPP_NUMBER = '254720942451';
-const TAKEAWAY_FEE = 20;
-
-let cart = [];
-let grandTotal = 0;
-
-function parsePrice(text) {
-  return parseInt(text.replace(/[^0-9]/g, '')) || 0;
-}
-
-function updateCart() {
-  let total = 0;
-  cart = [];
-  menuItems.forEach(item => {
-    const name = item.querySelector('.item-name').textContent.trim();
-    const price = parsePrice(item.querySelector('.item-price').textContent);
-    const qty = parseInt(item.querySelector('.qty-val').textContent);
-    const category = item.closest('[data-category]')?.dataset.category || '';
-    if (qty > 0) {
-      let itemTotal = price * qty;
-      if (category !== 'Snacks') itemTotal += TAKEAWAY_FEE * qty;
-      total += itemTotal;
-      cart.push({ name, price, qty, category, itemTotal });
+const WHATSAPP_NUMBER='254720942451';const TAKEAWAY_FEE=20;let cart=[];
+function parsePrice(t){return parseInt(t.replace(/[^0-9]/g,''))||0}
+function getAllMenuItems(){return document.querySelectorAll('.menu-item')}
+function updateCartFromDOM(){
+  cart=[];let subtotal=0,packageTotal=0,grand=0;
+  getAllMenuItems().forEach(el=>{
+    const name=el.querySelector('.item-name').textContent.trim();
+    const price=parsePrice(el.querySelector('.item-price').textContent);
+    const qty=parseInt(el.querySelector('.qty-val').textContent)||0;
+    const cat=el.closest('[data-category]')?.dataset.category||'';
+    const isSnack=cat.toLowerCase().includes('snack');
+    if(qty>0){
+      const base=price*qty;const pack=isSnack?0:TAKEAWAY_FEE*qty;
+      subtotal+=base;packageTotal+=pack;grand+=base+pack;
+      cart.push({name,price,qty,cat,isSnack,base,pack,total:base+pack})
     }
   });
-  grandTotal = total;
-  totalPriceEl.textContent = `KSh ${grandTotal}`;
+  document.getElementById('totalPrice').textContent=`KSh ${grand}`;
+  document.getElementById('cartCount').textContent=`${cart.reduce((a,b)=>a+b.qty,0)} items`;
+  return {subtotal,packageTotal,grand};
 }
-
-menuItems.forEach(item => {
-  const minusBtn = item.querySelector('.minus');
-  const plusBtn = item.querySelector('.plus');
-  const qtyVal = item.querySelector('.qty-val');
-  plusBtn.addEventListener('click', () => {
-    qtyVal.textContent = parseInt(qtyVal.textContent) + 1;
-    updateCart();
-  });
-  minusBtn.addEventListener('click', () => {
-    const current = parseInt(qtyVal.textContent);
-    if (current > 0) qtyVal.textContent = current - 1;
-    updateCart();
-  });
+getAllMenuItems().forEach(el=>{
+  const minus=el.querySelector('.minus'),plus=el.querySelector('.plus'),qtyVal=el.querySelector('.qty-val');
+  plus.addEventListener('click',()=>{qtyVal.textContent=parseInt(qtyVal.textContent)+1;updateCartFromDOM()});
+  minus.addEventListener('click',()=>{let c=parseInt(qtyVal.textContent);if(c>0){qtyVal.textContent=c-1;updateCartFromDOM()}});
 });
-
-orderBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  if (cart.length === 0) {
-    alert('Please add items to your order first!');
-    return;
-  }
-  let message = "*NEW ORDER - Rayan Cafe Supreme*\n\n";
-  cart.forEach(item => {
-    let lineTotal = item.price * item.qty;
-    if (item.category !== 'Snacks') lineTotal += TAKEAWAY_FEE * item.qty;
-    message += `• ${item.name} x${item.qty} - KSh ${lineTotal}\n`;
+function openCart(){
+  const {subtotal,packageTotal,grand}=updateCartFromDOM();
+  if(cart.length===0){alert('Please add items first!');return}
+  const list=document.getElementById('cartItemsList');
+  list.innerHTML=cart.map(item=>`
+    <div class="cart-item-row">
+      <div style="flex:1">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-breakdown">
+          KSh ${item.price} × ${item.qty} = <b>KSh ${item.base}</b>
+          ${item.isSnack ? `<br><span style="color:green">No package (Snacks)</span>` : `<br>📦 Package: KSh ${TAKEAWAY_FEE} × ${item.qty} = <b>KSh ${item.pack}</b>`}
+          <br><b style="color:#1E5631">Item total: KSh ${item.total}</b>
+        </div>
+      </div>
+      <div class="cart-controls">
+        <button onclick="changeQty('${item.name.replace(/'/g,"\\'")}', -1)">−</button>
+        <span style="min-width:24px;text-align:center;font-weight:bold;">${item.qty}</span>
+        <button onclick="changeQty('${item.name.replace(/'/g,"\\'")}', 1)">+</button>
+        <span class="cart-delete" onclick="removeItem('${item.name.replace(/'/g,"\\'")}')">🗑️</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('modalTotal').innerHTML = `
+    <div style="font-size:0.85rem;text-align:left;width:100%">
+      <div style="display:flex;justify-content:space-between"><span>Food:</span><span>KSh ${subtotal}</span></div>
+      <div style="display:flex;justify-content:space-between"><span>Package (20×${cart.filter(c=>!c.isSnack).reduce((a,b)=>a+b.qty,0)}, Snacks free):</span><span>KSh ${packageTotal}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:1.2rem;font-weight:bold;border-top:1px dashed #ccc;margin-top:6px;padding-top:6px"><span>Total:</span><span>KSh ${grand}</span></div>
+    </div>
+  `;
+  document.getElementById('cartModal').classList.add('show');
+}
+function closeCart(){document.getElementById('cartModal').classList.remove('show')}
+function changeQty(name,delta){
+  const el=Array.from(getAllMenuItems()).find(e=>e.querySelector('.item-name').textContent.trim()===name);
+  if(!el) return;
+  const q=el.querySelector('.qty-val');let n=parseInt(q.textContent)+delta;if(n<0)n=0;q.textContent=n;
+  if(updateCartFromDOM().grand===0) closeCart(); else openCart();
+}
+function removeItem(name){
+  const el=Array.from(getAllMenuItems()).find(e=>e.querySelector('.item-name').textContent.trim()===name);
+  if(el) el.querySelector('.qty-val').textContent='0';
+  if(updateCartFromDOM().grand===0) closeCart(); else openCart();
+}
+document.getElementById('orderBtn').addEventListener('click',e=>{e.preventDefault();openCart()});
+function confirmWhatsApp(){
+  if(cart.length===0) return;
+  const {subtotal,packageTotal,grand}=updateCartFromDOM();
+  let msg=`*NEW ORDER - Rayan Cafe Supreme*%0A%0A`;
+  cart.forEach(it=>{
+    msg+=`${it.name} x${it.qty}%0A   ${it.price}x${it.qty}=${it.base}`;
+    msg+=it.isSnack?` (No package)`:` + Package KSh ${it.pack}`;
+    msg+=` = KSh ${it.total}%0A`;
   });
-  message += `\nTOTAL: KSh ${grandTotal}\n`;
-  message += "Pandit Nehru Rd,\n";
-  message += "7am - 11pm Daily\n";
-  message += "Please confirm my order. Thank you!";
-
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-});
+  msg+=`%0A*Food:* KSh ${subtotal}%0A*Package:* KSh ${packageTotal}%0A*TOTAL: KSh ${grand}*`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
+  closeCart();
+}
 </script>
-
 </body>
 </html>
